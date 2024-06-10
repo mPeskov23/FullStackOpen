@@ -1,6 +1,4 @@
-# Exercise 4 diagram
-
-sequence diagram
+sequenceDiagram
     participant browser
     participant server
 
