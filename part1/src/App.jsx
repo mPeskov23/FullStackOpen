@@ -1,7 +1,8 @@
-const Hello = () => {
+/* eslint-disable react/prop-types */
+const Hello = (props) => {
   return (
     <div>
-      <p>Hello world</p>
+      <p>Hello {props.name}</p>
     </div>
   )
 }
@@ -11,7 +12,7 @@ const App = () => {
     <div>
       <h1>Greetings</h1>
 
-      <Hello />
+      <Hello name="Mikhail"/>
     </div>
   )
 }
