@@ -41,8 +41,6 @@ const SubmitForm = (props) => {
       phonebookService.create(personObject).then((returnedPerson) => {
         setPersons(persons.concat(returnedPerson));
       });
-      setNewName("");
-      setNewNumber("");
     }
     setNewName("");
     setNewNumber("");
