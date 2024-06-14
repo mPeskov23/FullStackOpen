@@ -3,6 +3,7 @@ import phonebookService from "./services/phonebookService";
 import FilterForm from "./components/FilterForm";
 import SubmitForm from "./components/SubmitForm";
 import Numbers from "./components/Numbers";
+import Notification from "./components/Notification";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -12,6 +13,8 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
 
   const [searchTerm, setSearchTerm] = useState("");
+
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     phonebookService.getAll().then((initialPersons) => {
@@ -26,10 +29,12 @@ const App = () => {
     setNewNumber,
     persons,
     setPersons,
+    setMessage,
   ];
 
   return (
     <div>
+      <Notification message={message} />
       <h2>Search</h2>
       <FilterForm searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <h2>Add a number</h2>

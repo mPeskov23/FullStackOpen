@@ -2,7 +2,7 @@ import phonebookService from "../services/phonebookService";
 
 /* eslint-disable react/prop-types */
 const SubmitForm = (props) => {
-  const [newName, setNewName, newNumber, setNewNumber, persons, setPersons] =
+  const [newName, setNewName, newNumber, setNewNumber, persons, setPersons, setMessage] =
     props.submitInfo;
 
   const changeNameForm = (event) => {
@@ -35,12 +35,20 @@ const SubmitForm = (props) => {
                 person.id !== existingPerson.id ? person : returnedPerson
               )
             );
+            setMessage(`Updated ${newName}`);
+            setTimeout(() => {
+              setMessage(null);
+            }, 5000);
           });
       }
     } else {
       phonebookService.create(personObject).then((returnedPerson) => {
         setPersons(persons.concat(returnedPerson));
       });
+      setMessage(`Added ${newName}`);
+      setTimeout(() => {
+        setMessage(null);
+      }, 5000);
     }
     setNewName("");
     setNewNumber("");
