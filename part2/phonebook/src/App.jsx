@@ -35,7 +35,7 @@ const App = () => {
       <h2>Add a number</h2>
       <SubmitForm submitInfo={submitInfo} />
       <h2>Numbers</h2>
-      <Numbers persons={persons} searchTerm={searchTerm} />
+      <Numbers persons={persons} setPersons={setPersons} searchTerm={searchTerm} />
     </div>
   );
 };
