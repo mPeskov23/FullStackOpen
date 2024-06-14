@@ -20,7 +20,23 @@ const SubmitForm = (props) => {
       number: newNumber,
     };
     if (persons.find((person) => person.name === newName)) {
-      alert(`${newName} is already added to phonebook`);
+      if (
+        window.confirm(
+          `${newName} is already added to the phonebook, replace the old number with a new one?`
+        )
+      ) {
+        const existingPerson = persons.find((person) => person.name === newName);
+        const changedPerson = { ...existingPerson, number: newNumber };
+        phonebookService
+          .update(existingPerson.id, changedPerson)
+          .then((returnedPerson) => {
+            setPersons(
+              persons.map((person) =>
+                person.id !== existingPerson.id ? person : returnedPerson
+              )
+            );
+          });
+      }
     } else {
       phonebookService.create(personObject).then((returnedPerson) => {
         setPersons(persons.concat(returnedPerson));
@@ -28,6 +44,8 @@ const SubmitForm = (props) => {
       setNewName("");
       setNewNumber("");
     }
+    setNewName("");
+    setNewNumber("");
   };
 
   return (
