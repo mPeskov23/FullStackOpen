@@ -1,8 +1,10 @@
+import axios from "axios";
+
 /* eslint-disable react/prop-types */
 const SubmitForm = (props) => {
-  const [ newName, setNewName, newNumber, setNewNumber, persons, setPersons ] =
+  const [newName, setNewName, newNumber, setNewNumber, persons, setPersons] =
     props.submitInfo;
-    
+
   const changeNameForm = (event) => {
     setNewName(event.target.value);
   };
@@ -21,7 +23,11 @@ const SubmitForm = (props) => {
     if (persons.find((person) => person.name === newName)) {
       alert(`${newName} is already added to phonebook`);
     } else {
-      setPersons(persons.concat(personObject));
+      axios
+        .post("http://localhost:3001/persons", personObject)
+        .then((response) => {
+          setPersons(persons.concat(response.data));
+        });
       setNewName("");
       setNewNumber("");
     }
