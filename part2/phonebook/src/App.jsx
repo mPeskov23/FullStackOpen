@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import phonebookService from "./services/phonebookService";
 import FilterForm from "./components/FilterForm";
 import SubmitForm from "./components/SubmitForm";
 import Numbers from "./components/Numbers";
@@ -14,8 +14,8 @@ const App = () => {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:3001/persons").then((response) => {
-      setPersons(response.data);
+    phonebookService.getAll().then((initialPersons) => {
+      setPersons(initialPersons);
     });
   }, []);
 

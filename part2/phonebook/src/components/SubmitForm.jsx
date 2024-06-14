@@ -1,4 +1,4 @@
-import axios from "axios";
+import phonebookService from "../services/phonebookService";
 
 /* eslint-disable react/prop-types */
 const SubmitForm = (props) => {
@@ -23,11 +23,9 @@ const SubmitForm = (props) => {
     if (persons.find((person) => person.name === newName)) {
       alert(`${newName} is already added to phonebook`);
     } else {
-      axios
-        .post("http://localhost:3001/persons", personObject)
-        .then((response) => {
-          setPersons(persons.concat(response.data));
-        });
+      phonebookService.create(personObject).then((returnedPerson) => {
+        setPersons(persons.concat(returnedPerson));
+      });
       setNewName("");
       setNewNumber("");
     }
