@@ -2,8 +2,16 @@ import phonebookService from "../services/phonebookService";
 
 /* eslint-disable react/prop-types */
 const SubmitForm = (props) => {
-  const [newName, setNewName, newNumber, setNewNumber, persons, setPersons, setMessage] =
-    props.submitInfo;
+  const [
+    newName,
+    setNewName,
+    newNumber,
+    setNewNumber,
+    persons,
+    setPersons,
+    setMessage,
+    setStatus,
+  ] = props.submitInfo;
 
   const changeNameForm = (event) => {
     setNewName(event.target.value);
@@ -19,13 +27,14 @@ const SubmitForm = (props) => {
       name: newName,
       number: newNumber,
     };
-    if (persons.find((person) => person.name === newName)) {
+    const existingPerson = persons.find((person) => person.name === newName);
+
+    if (existingPerson) {
       if (
         window.confirm(
           `${newName} is already added to the phonebook, replace the old number with a new one?`
         )
       ) {
-        const existingPerson = persons.find((person) => person.name === newName);
         const changedPerson = { ...existingPerson, number: newNumber };
         phonebookService
           .update(existingPerson.id, changedPerson)
@@ -35,20 +44,42 @@ const SubmitForm = (props) => {
                 person.id !== existingPerson.id ? person : returnedPerson
               )
             );
+            setStatus("notification");
             setMessage(`Updated ${newName}`);
+            setTimeout(() => {
+              setMessage(null);
+            }, 5000);
+          })
+          // eslint-disable-next-line no-unused-vars
+          .catch((error) => {
+            setMessage(
+              `Information of ${newName} has already been removed from the server`
+            );
+            setStatus("error");
             setTimeout(() => {
               setMessage(null);
             }, 5000);
           });
       }
     } else {
-      phonebookService.create(personObject).then((returnedPerson) => {
-        setPersons(persons.concat(returnedPerson));
-      });
-      setMessage(`Added ${newName}`);
-      setTimeout(() => {
-        setMessage(null);
-      }, 5000);
+      phonebookService
+        .create(personObject)
+        .then((returnedPerson) => {
+          setPersons(persons.concat(returnedPerson));
+          setStatus("notification");
+          setMessage(`Added ${newName}`);
+          setTimeout(() => {
+            setMessage(null);
+          }, 5000);
+        })
+        // eslint-disable-next-line no-unused-vars
+        .catch((error) => {
+          setMessage(`Failed to add ${newName}`);
+          setStatus("error");
+          setTimeout(() => {
+            setMessage(null);
+          }, 5000);
+        });
     }
     setNewName("");
     setNewNumber("");

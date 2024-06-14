@@ -16,6 +16,8 @@ const App = () => {
 
   const [message, setMessage] = useState(null);
 
+  const [status, setStatus] = useState("");
+
   useEffect(() => {
     phonebookService.getAll().then((initialPersons) => {
       setPersons(initialPersons);
@@ -30,11 +32,12 @@ const App = () => {
     persons,
     setPersons,
     setMessage,
+    setStatus
   ];
 
   return (
     <div>
-      <Notification message={message} />
+      <Notification message={message} type={status} />
       <h2>Search</h2>
       <FilterForm searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <h2>Add a number</h2>

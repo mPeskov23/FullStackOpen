@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
 import "../../index.css";
-const Notification = ({ message }) => {
+const Notification = ({ message, type }) => {
     if (message === null) {
       return null
     }
   
     return (
-      <div className='notification'>
+      <div className={type}>
         {message}
       </div>
     )
