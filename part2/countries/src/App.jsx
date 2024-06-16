@@ -10,6 +10,7 @@ const App = () => {
   useEffect(() => {
     const fetchCountries = async () => {
       const countriesData = await APIService.getAllCountries();
+      console.log(countriesData)
       setCountries(countriesData);
     };
 
